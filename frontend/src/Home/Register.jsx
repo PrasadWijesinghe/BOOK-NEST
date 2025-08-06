@@ -1,0 +1,80 @@
+import React from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
+import NavBar from '../Components/NavBar';
+
+
+const Login = () => {
+  return (
+    <div className='flex flex-col h-screen w-full bg-blue-50 p-4'>
+         <NavBar/>
+      {/* Main Content */}
+      <div className='flex flex-col md:flex-row flex-1 items-center justify-center md:justify-around'>
+
+        {/* Left Side: Welcome Section */}
+        <div className='mb-10 md:mb-0'>
+
+          <h1 className='text-4xl font-extrabold text-blue-800 text-center md:text-left'>
+            Join the <span className='text-blue-600'>Book Nest</span> Community
+            </h1>
+            <p className='mt-4 text-gray-600 text-center md:text-left max-w-md'>
+            Create your account and dive into a world of stories, insights, and adventures. Your next favorite book is just a click away.
+            </p>
+
+      </div>
+
+      {/* Right Side: Login Form */}
+      <div className='flex flex-col space-y-5 bg-blue-400 p-8 rounded-2xl max-w-sm w-full shadow-lg'>
+
+        <h1 className='text-3xl font-bold text-white text-center'>Sign Up</h1>
+
+        <input 
+          type='Name' 
+          placeholder='Full Name' 
+          className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        />
+
+        <input 
+          type='Username' 
+          placeholder='Username' 
+          className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        />
+
+        <input 
+          type='Email' 
+          placeholder='Email' 
+          className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        />
+
+        <input 
+          type='Phone' 
+          placeholder='Phone' 
+          className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        />
+
+        <input 
+          type='password' 
+          placeholder='Password' 
+          className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        />
+        <input 
+          type='password' 
+          placeholder='Confirm Password' 
+          className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        />
+
+        <button className='bg-blue-800 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-300'>
+          Sign Up
+        </button>
+        <p className=' text-white'>Already Have Account ? Sign In <a className=' underline hover:text-blue-100' href='/login'> Here</a></p>
+
+        <p className='text-white text-sm '>
+          By clicking Sign Up, you agree to our <a href='#' className='underline hover:text-blue-100'>Terms & Conditions</a>.
+        </p>
+      </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Login;
