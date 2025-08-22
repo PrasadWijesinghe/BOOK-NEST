@@ -2,6 +2,10 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import userModel from '../models/userModel.js';
 import transporter from '../config/nodemailer.js';
+<<<<<<< HEAD
+=======
+import { use } from 'react';
+>>>>>>> 6ced185ca2c73f2676c03c3db3a04f19fe01fb97
 
 export const register = async (req, res) =>{
 
@@ -245,11 +249,16 @@ export const resetPassword = async(req, res)=>{
     const {email, otp, newPassword} = req.body;
 
     if(!email || !otp || !newPassword){
+<<<<<<< HEAD
         return res.json({success:false, message: "Email,OtP And new Password Reqired"});
+=======
+        return res.json({success:false, message: "Email,OtP And Password Reqired"});
+>>>>>>> 6ced185ca2c73f2676c03c3db3a04f19fe01fb97
     }
 
     try{
 
+<<<<<<< HEAD
         const user = await userModel.findOne({email});
 
         if(!user){
@@ -274,6 +283,8 @@ export const resetPassword = async(req, res)=>{
 
         return res.json({success:true, message: "Password has been changed succefully"});
 
+=======
+>>>>>>> 6ced185ca2c73f2676c03c3db3a04f19fe01fb97
     }
     catch(error){
         return res.json({success:false, message:error.message})
