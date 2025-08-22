@@ -1,4 +1,8 @@
-
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import userModel from '../models/userModel.js';
+import transporter from '../config/nodemailer.js';
+import userAuth from '../middleware/userAuth.js';
 
 export const register = async (req, res) =>{
 
@@ -238,6 +242,7 @@ export const sendRestOtp = async(req, res)=>{
 
 }
 
+export const resetPassword = async (req, res) => {
     const {email, otp, newPassword} = req.body;
 
     if(!email || !otp || !newPassword){
@@ -272,3 +277,4 @@ export const sendRestOtp = async(req, res)=>{
     catch(error){
         return res.json({success:false, message:error.message})
     }
+}
