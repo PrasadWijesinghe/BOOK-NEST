@@ -2,8 +2,11 @@ import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
+import { useState } from 'react';
 
 const Login = () => {
+
+
   return (
     <div className='flex flex-col h-screen w-full bg-blue-50 p-4'>
 
@@ -30,13 +33,16 @@ const Login = () => {
         <h1 className='text-3xl font-bold text-white text-center'>Sign In</h1>
 
         <form className='space-y-5'>
-          <input 
+
+            <input 
             type='email'
             name='email'
             placeholder='Email' 
             required
             className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
           />
+  
+          
 
           <input 
             type='password'

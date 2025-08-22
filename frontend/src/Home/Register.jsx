@@ -1,8 +1,15 @@
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import NavBar from '../Components/NavBar';
+import { useState } from 'react';
 
 const Register = () => {
+
+    const [state, setState] = useState('Sign Up')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
   return (
     <div className='flex flex-col h-screen w-full bg-blue-50 p-4'>
       <NavBar/>
@@ -25,23 +32,21 @@ const Register = () => {
           <h1 className='text-3xl font-bold text-white text-center'>Sign Up</h1>
 
           <form className='space-y-5'>
-            <input 
+          {state === 'Sign Up' && (
+            <input onChange={e =>setName(e.target.value)}
+            value={name}
               type='text'
               name='fullName'
               placeholder='Full Name' 
               required
               className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
             />
+            )}
+
 
             <input 
-              type='text'
-              name='username'
-              placeholder='Username' 
-              required
-              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
-            />
-
-            <input 
+            onChange={e =>setEmail(e.target.value)}
+            value={email}
               type='email'
               name='email'
               placeholder='Email' 
@@ -49,13 +54,6 @@ const Register = () => {
               className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
             />
 
-            <input 
-              type='tel'
-              name='phone'
-              placeholder='Phone' 
-              required
-              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
-            />
 
             <input 
               type='password'

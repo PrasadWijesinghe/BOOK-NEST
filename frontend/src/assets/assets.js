@@ -13,11 +13,13 @@ import Crime from './Crime and Punishment.jpg'
 import War from './War and Peace.jpg'
 import LOGO from './LOGO.png'
 
+
 export const assets = {
     George_Orwell,
     LOGO,
     The_Gatsby,
     MockingBird,
+   
 }
 
 export const books = [
