@@ -5,10 +5,12 @@ import Register from './Home/Register.jsx'
 import {Route, Routes} from 'react-router-dom'
 import Book from './Home/Book.jsx'
 import Shop from './Home/Shop.jsx'
+import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
   return (
     <div>
+      <ToastContainer/>
       <Routes>
         <Route path='/' element = {<Hero/>} />
          <Route path='/login' element = {<Login/>} />

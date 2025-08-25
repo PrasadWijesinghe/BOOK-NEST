@@ -1,14 +1,17 @@
-
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { AppContext } from '../Context/AppContext';
 
 const Login = () => {
 
 
   const navigate = useNavigate();
+
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,12 +19,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        '/api/auth/login',
+        backendUrl + '/api/auth/login',
         { email, password },
         { withCredentials: true }
       );
       if (data.success) {
-        toast.success('Login successful!');
+        setIsLoggedin(true);
+        await getUserData();
         navigate('/');
       } else {
         toast.error(data.message || 'Login failed');
@@ -90,7 +94,7 @@ const Login = () => {
           </button>
         </form>
 
-        <p className='text-white'>Dont Have Account ? Register <a className='underline hover:text-blue-100' href='/register'> Here</a></p>
+        <p className='text-white'>Dont Have Account ? Register <a className='underline hover:text-blue-100' onClick={()=>navigate('/register')} > Here</a></p>
 
         <p className='text-white text-sm '>
           By clicking Sign In, you agree to our <a href='#' className='underline hover:text-blue-100'>Terms & Conditions</a>.

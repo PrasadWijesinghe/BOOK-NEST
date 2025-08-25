@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import NavBar from '../Components/NavBar';
 import { useNavigate } from 'react-router-dom';
@@ -7,47 +6,43 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContext);
 
-    const navigate = useNavigate()
+  const [state] = useState('Sign Up');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-
-  const { backendUrl, setIsLoggedin } = useContext(AppContext)
-
-
-  const [state] = useState('Sign Up')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-
-
-    const onSubmitHandler = async (e) => {
-      e.preventDefault();
-      if (password !== confirmPassword) {
-        toast.error('Passwords do not match');
-        return;
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+    try {
+      const { data } = await axios.post(
+        backendUrl + '/api/auth/register',
+        { name, email, password },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        setIsLoggedin(true);
+        await getUserData();
+        navigate('/');
+      } else {
+        toast.error(data.message);
       }
-      try {
-        const { data } = await axios.post(
-          backendUrl + '/api/auth/register',
-          { name, email, password },
-          { withCredentials: true }
-        );
-        if (data.success) {
-          setIsLoggedin(true);
-          navigate('/');
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        toast.error(error.response?.data?.message || 'Registration failed');
-      }
-    };
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Registration failed');
+    }
+  };
 
   return (
     <div className='flex flex-col h-screen w-full bg-blue-50 p-4'>
       <NavBar/>
-      
+
       {/* Main Content */}
       <div className='flex flex-col md:flex-row flex-1 items-center justify-center md:justify-around'>
 
@@ -76,8 +71,6 @@ const Register = () => {
               className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
             />
             )}
-
-
 
             <input
               onChange={e => setEmail(e.target.value)}
