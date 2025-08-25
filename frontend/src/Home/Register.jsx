@@ -1,14 +1,48 @@
-import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+
+import React, { useContext, useState } from 'react';
 import NavBar from '../Components/NavBar';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../Context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Register = () => {
 
-    const [state, setState] = useState('Sign Up')
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const navigate = useNavigate()
+
+
+  const { backendUrl, setIsLoggedin } = useContext(AppContext)
+
+
+  const [state] = useState('Sign Up')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
+
+    const onSubmitHandler = async (e) => {
+      e.preventDefault();
+      if (password !== confirmPassword) {
+        toast.error('Passwords do not match');
+        return;
+      }
+      try {
+        const { data } = await axios.post(
+          backendUrl + '/api/auth/register',
+          { name, email, password },
+          { withCredentials: true }
+        );
+        if (data.success) {
+          setIsLoggedin(true);
+          navigate('/');
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Registration failed');
+      }
+    };
 
   return (
     <div className='flex flex-col h-screen w-full bg-blue-50 p-4'>
@@ -31,7 +65,7 @@ const Register = () => {
         <div className='flex flex-col space-y-5 bg-blue-400 p-8 rounded-2xl max-w-sm w-full shadow-lg'>
           <h1 className='text-3xl font-bold text-white text-center'>Sign Up</h1>
 
-          <form className='space-y-5'>
+          <form className='space-y-5' onSubmit={onSubmitHandler}>
           {state === 'Sign Up' && (
             <input onChange={e =>setName(e.target.value)}
             value={name}
@@ -44,30 +78,34 @@ const Register = () => {
             )}
 
 
-            <input 
-            onChange={e =>setEmail(e.target.value)}
-            value={email}
+
+            <input
+              onChange={e => setEmail(e.target.value)}
+              value={email}
               type='email'
               name='email'
-              placeholder='Email' 
+              placeholder='Email'
               required
               className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
             />
 
-
-            <input 
+            <input
               type='password'
               name='password'
-              placeholder='Password' 
+              placeholder='Password'
               required
+              value={password}
+              onChange={e => setPassword(e.target.value)}
               className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
             />
 
-            <input 
+            <input
               type='password'
               name='confirmPassword'
-              placeholder='Confirm Password' 
+              placeholder='Confirm Password'
               required
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
               className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
             />
 

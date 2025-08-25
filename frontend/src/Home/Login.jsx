@@ -1,10 +1,35 @@
-import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
-import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+
+
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        '/api/auth/login',
+        { email, password },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        toast.success('Login successful!');
+        navigate('/');
+      } else {
+        toast.error(data.message || 'Login failed');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Login failed');
+    }
+  };
 
 
   return (
@@ -32,28 +57,29 @@ const Login = () => {
 
         <h1 className='text-3xl font-bold text-white text-center'>Sign In</h1>
 
-        <form className='space-y-5'>
 
-            <input 
+        <form className='space-y-5' onSubmit={onSubmitHandler}>
+          <input
             type='email'
             name='email'
-            placeholder='Email' 
+            placeholder='Email'
             required
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
           />
-  
-          
-
-          <input 
+          <input
             type='password'
             name='password'
-            placeholder='Password' 
+            placeholder='Password'
             required
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full'
           />
 
           <div className='text-right'>
-            <a href='#' className='text-white underline text-sm hover:text-blue-100'>Forgot your password?</a>
+            <a href='#' onClick={()=>navigate('/reset-password')} className='text-white underline text-sm hover:text-blue-100'>Forgot your password?</a>
           </div>
 
           <button 
