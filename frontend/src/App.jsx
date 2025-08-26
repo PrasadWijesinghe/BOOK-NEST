@@ -6,6 +6,7 @@ import {Route, Routes} from 'react-router-dom'
 import Book from './Home/Book.jsx'
 import Shop from './Home/Shop.jsx'
 import { ToastContainer, toast } from 'react-toastify';
+import EmailVerify from './Home/EmailVerify.jsx'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
          <Route path='/register' element = {<Register/>} />
          <Route path='/shop' element = {<Shop/>} />
          <Route path='/book/:bookId' element = {<Book/>}/>
+         <Route path='/email-verify' element ={<EmailVerify/>} />
       </Routes>
     </div>
   )

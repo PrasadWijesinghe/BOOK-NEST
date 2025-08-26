@@ -40,11 +40,11 @@ const Register = () => {
   };
 
   return (
-    <div className='flex flex-col h-screen w-full bg-blue-50 p-4'>
+    <div className='flex flex-col h-screen w-full bg-blue-50'>
       <NavBar/>
 
       {/* Main Content */}
-      <div className='flex flex-col md:flex-row flex-1 items-center justify-center md:justify-around'>
+      <div className='flex flex-col md:flex-row flex-1 items-center justify-center md:justify-around p-4'>
 
         {/* Left Side: Welcome Section */}
         <div className='mb-10 md:mb-0'>
