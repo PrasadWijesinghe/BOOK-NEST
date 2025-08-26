@@ -7,6 +7,7 @@ import Book from './Home/Book.jsx'
 import Shop from './Home/Shop.jsx'
 import { ToastContainer, toast } from 'react-toastify';
 import EmailVerify from './Home/EmailVerify.jsx'
+import ResetPassword from './Home/ResetPassword.jsx'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
          <Route path='/shop' element = {<Shop/>} />
          <Route path='/book/:bookId' element = {<Book/>}/>
          <Route path='/email-verify' element ={<EmailVerify/>} />
+         <Route path='/reset-password' element={<ResetPassword/>}/>
       </Routes>
     </div>
   )

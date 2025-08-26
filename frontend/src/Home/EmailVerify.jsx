@@ -62,7 +62,7 @@ const EmailVerify = () => {
   return (
     <div className='flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400'>
       <form onSubmit={onSubmitHandler} className='bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm'>
-        <h1 className='text-2xl font-semibold text-center mb-4'>Email Verify OTP</h1>
+        <h1 className=' text-indigo-300 text-2xl font-semibold text-center mb-4'>Email Verify OTP</h1>
         <p className='text-center mb-6 text-indigo-300'>Enter the 6-digit code sent to your Email</p>
         <div className='flex justify-between mb-8' onPaste={handlePaste}>
           {Array(6).fill(0).map((_, index) => (
