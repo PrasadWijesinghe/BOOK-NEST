@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
 import transporter from '../config/nodemailer.js';
 import userAuth from '../middleware/userAuth.js';
+import { EMAIL_VERIFY_TEMPLATE, PASSWORD_RESET_TEMPLATE } from '../config/EmailTemplate.js';
 
 export const register = async (req, res) =>{
 
@@ -114,67 +115,58 @@ export const logout = async (req , res) =>{
     }
 }
 
+// sendVerifyOtp
 export const sendVerifyOtp = async (req, res) => {
-    try
-    {
-        const {userId} = req.body;
-
+    try {
+        const userId = req.user.id; // <-- get userId from token
         const user = await userModel.findById(userId);
 
-        if(user.isAccountVerified)
-        {
-                return res.json({success:false, message:"Account Already Verified"})
+        if(user.isAccountVerified) {
+            return res.json({success:false, message:"Account Already Verified"})
         }
 
         const otp = String(Math.floor(100000 + Math.random() * 900000));
-
         user.verifyOtp = otp;
         user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000
-
         await user.save();
 
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
             to:user.email,
             subject:'Account Verification OTP',
-            text:`Your OTP is ${otp}.Verify Your Accout Using this OTP.`
+            html:EMAIL_VERIFY_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         }
 
         await transporter.sendMail(mailOptions);
 
         res.json({success:true , message:"Verification Otp Sent You to Your Email"})
     }
-    catch(error)
-    {
+    catch(error) {
         res.json({success:false, message:error.message})
     }
 }
 
-
+// verifyEmail
 export const verifyEmail = async (req ,res)=> {
+    const { otp } = req.body;
+    const userId = req.user.id; // <-- get userId from token
 
-    const {userId, otp} = req.body;
-
-    if(!userId || !otp)
-    {
+    if(!otp) {
         return res.json({success:false, message:'Missing Details'})
     }
 
-    try{
+    try {
         const user = await userModel.findById(userId);
 
-        if(!user)
-        {
-                return res.json({success:false, message:'User Not Found'})
+        if(!user) {
+            return res.json({success:false, message:'User Not Found'})
         }
 
-        if(user.verifyOtp === '' || user.verifyOtp !== otp )
-        {
-                return res.json({success:false, message:'Invalid OTP'})
+        if(user.verifyOtp === '' || user.verifyOtp !== otp ) {
+            return res.json({success:false, message:'Invalid OTP'})
         }
-        if(user.verifyOtpExpireAt < Date.now() )
-        {
-                return res.json({success:false, message:'OTP is Expired'})
+        if(user.verifyOtpExpireAt < Date.now() ) {
+            return res.json({success:false, message:'OTP is Expired'})
         }
 
         user.isAccountVerified = true;
@@ -183,8 +175,7 @@ export const verifyEmail = async (req ,res)=> {
 
         await user.save();
 
-         return res.json({success:true, message: "Email Verified SuccussFull"})
-
+        return res.json({success:true, message: "Email Verified SuccussFull"})
     }
     catch(error){
         res.json({success:false, message:error.message})
@@ -226,7 +217,8 @@ export const sendRestOtp = async(req, res)=>{
             from: process.env.SENDER_EMAIL,
             to:user.email,
             subject:'Password Rest OTP',
-            text:`Your OTP for resting your password is ${otp}.Use this otp to reset password your password.`
+            //text:`Your OTP for resting your password is ${otp}.Use this otp to reset password your password.`
+            html:PASSWORD_RESET_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         }
 
         await transporter.sendMail(mailOptions);

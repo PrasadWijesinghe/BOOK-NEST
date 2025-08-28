@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export const AppContext = createContext();
@@ -8,6 +8,7 @@ export const AppContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [cart, setCart] = useState({});
 
     const getAuthState = async () => {
         try {
@@ -34,11 +35,20 @@ export const AppContextProvider = (props) => {
         }
     };
 
+    const addToCart = (bookId, quantity) => {
+        setCart(prev => ({
+            ...prev,
+            [bookId]: (prev[bookId] || 0) + quantity
+        }));
+    };
+
     const value = {
         backendUrl,
         isLoggedin, setIsLoggedin,
         userData, setUserData,
-        getUserData
+        cart, setCart,
+        getUserData,
+        addToCart
     };
 
     return (
