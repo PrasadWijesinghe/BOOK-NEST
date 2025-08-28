@@ -53,10 +53,10 @@ const NavBar = () => {
         </Link>
 
         <div className='flex items-center space-x-8 justify-between'>
-          <a href='/' className='hover:text-blue-400 '>Home</a>
-          <a href='#' className='hover:text-blue-400 '>About</a>
-          <a href='/shop' className='hover:text-blue-400 '>Shop</a>
-          <a href='#' className='hover:text-blue-400 '>Contact</a>
+          <a href='/' className='hover:text-blue-400'>Home</a>
+          <a href='/#featured' className='hover:text-blue-400'>Featured</a>
+          <a href='/#aboutus' className='hover:text-blue-400'>About Us</a>
+          <a href='/#contact' className='hover:text-blue-400'>Contact</a>
         </div>
 
         {isLoggedin && userData ? (
